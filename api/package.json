@@ -1,0 +1,11 @@
+{
+  "name": "inventory-cook-app",
+  "version": "1.0.0",
+  "description": "application to help the chef handling his/her inventory of ingredients",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "FlavienGR",
+  "license": "MIT"
+}
