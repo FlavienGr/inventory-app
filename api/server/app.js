@@ -29,11 +29,11 @@ app.use(
 
 // parses incoming requests with JSON payloads
 app.use(express.json());
-
 // / Logs
 app.use(morgan("combined"));
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({ success: true, data: "good" });
-});
+app.get("/", (_req, res) =>
+  res.status(200).json({ success: true, data: "good" })
+);
+
 module.exports = app;
