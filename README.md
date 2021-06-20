@@ -25,10 +25,21 @@ Inventory-cook-app is an application to help the chef handling his/her inventory
 docker-compose up
 ```
 
+## Configuration
+
+- Look at the exemple file called .env.example inside the config folder and add your own params
+
+```sh
+cd api/
+cp ./config/.env.example ./config/.env.development
+cp ./config/.env.example ./config/.env.test
+
+```
+
 ## Start the express Api
 
 ```sh
 cd api/
 npm install
-npm run start:dev
+npm run dev
 ```
