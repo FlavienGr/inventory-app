@@ -3,10 +3,6 @@ version: "3.4"
 services:
   mongo:
     image: mongo:4.2.0
-    environment:
-      # provide your credentials here
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootPassXX
     ports:
       - "27017:27017"
     volumes:

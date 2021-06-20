@@ -1,4 +1,5 @@
 const app = require("./app");
+require("./database/index");
 
 const PORT = process.env.API_PORT || 5000;
 
