@@ -66,7 +66,6 @@ const seedForInventory = async (user, products) => {
       products: productWithQuantity
     });
     await newInventory.save();
-    console.log('new Inventory', newInventory.products[0]);
   } catch (error) {
     console.log(error);
   }

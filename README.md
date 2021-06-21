@@ -36,6 +36,13 @@ cp ./config/.env.example ./config/.env.test
 
 ```
 
+## Seed the database with fake data
+
+```sh
+cd api/
+npm run seed:dev
+```
+
 ## Start the express Api
 
 ```sh
