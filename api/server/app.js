@@ -1,16 +1,16 @@
-const dotenv = require("dotenv");
-const path = require("path");
-const express = require("express");
-const cors = require("cors");
+const dotenv = require('dotenv');
+const path = require('path');
+const express = require('express');
+const cors = require('cors');
 
 // set the environment variables for development or test environment
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   dotenv.config({
-    path: path.join(`${process.cwd()}/config/.env.development`),
+    path: path.join(`${process.cwd()}/config/.env.development`)
   });
-} else if (process.env.NODE_ENV === "test") {
+} else if (process.env.NODE_ENV === 'test') {
   dotenv.config({
-    path: path.join(`${process.cwd()}/config/.env.test`),
+    path: path.join(`${process.cwd()}/config/.env.test`)
   });
 }
 
@@ -18,22 +18,22 @@ if (process.env.NODE_ENV === "development") {
 const app = express();
 
 // handling logs
-const morgan = require("morgan");
+const morgan = require('morgan');
 
 // handling cors request
 app.use(
   cors({
-    origin: "*",
+    origin: '*'
   })
 );
 
 // parses incoming requests with JSON payloads
 app.use(express.json());
 // / Logs
-app.use(morgan("combined"));
+app.use(morgan('combined'));
 
-app.get("/", (_req, res) =>
-  res.status(200).json({ success: true, data: "good" })
+app.get('/', (_req, res) =>
+  res.status(200).json({ success: true, data: 'good' })
 );
 
 module.exports = app;
