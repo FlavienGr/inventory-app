@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
+const errorHandler = require('./middlewares/errorHandler');
 
 // set the environment variables for development or test environment
 if (process.env.NODE_ENV === 'development') {
@@ -17,9 +19,6 @@ if (process.env.NODE_ENV === 'development') {
 // setup an express instance
 const app = express();
 
-// handling logs
-const morgan = require('morgan');
-
 // handling cors request
 app.use(
   cors({
@@ -32,8 +31,13 @@ app.use(express.json());
 // / Logs
 app.use(morgan('combined'));
 
-app.get('/', (_req, res) =>
-  res.status(200).json({ success: true, data: 'good' })
-);
+// / product router
+const routerProduct = require('./routes/product');
+
+//  routes
+app.use('/api/v1/products', routerProduct);
+
+// / error handler
+app.use(errorHandler);
 
 module.exports = app;
