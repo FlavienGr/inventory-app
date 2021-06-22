@@ -6,7 +6,8 @@ const {
   getAllProducts,
   getAProduct,
   storeProduct,
-  deleteProduct
+  deleteProduct,
+  updateProduct
 } = require('../controllers/product');
 
 const { projectValidationData } = require('../middlewares/valideData/project');
@@ -22,6 +23,14 @@ router
     storeProduct
   );
 
-router.route('/:id').get(getAProduct).delete(deleteProduct);
+router
+  .route('/:id')
+  .get(getAProduct)
+  .delete(deleteProduct)
+  .put(
+    projectValidationData,
+    allowData(['name', 'description']),
+    updateProduct
+  );
 
 module.exports = router;

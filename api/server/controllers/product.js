@@ -8,7 +8,6 @@ const DataNotAllowedError = require('../errors/DataNotAllowedError');
 exports.getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find().select('-__v');
-
     if (!products) {
       return res.status(200).json({ success: true, data: [] });
     }
@@ -52,6 +51,29 @@ exports.storeProduct = async (req, res, next) => {
     }
     await product.save();
 
+    return res.status(201).json({ success: true, data: product });
+  } catch (error) {
+    next(new DatabaseError());
+  }
+};
+
+// @desc   update a product
+// @route  put /api/v1/products/{id}
+// @access Public
+
+exports.updateProduct = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+  try {
+    const product = await Product.findOne({ _id: id }).select('-__v');
+
+    if (product === null) {
+      return next(new DataNotAllowedError("This product doesn't exists"));
+    }
+    product.name = name;
+    product.description = description;
+    await product.save();
+
     return res.status(200).json({ success: true, data: product });
   } catch (error) {
     next(new DatabaseError());
@@ -68,7 +90,7 @@ exports.deleteProduct = async (req, res, next) => {
     const product = await Product.findOne({ _id: id });
 
     if (product === null) {
-      return next(new DataNotAllowedError("This article doesn't exists"));
+      return next(new DataNotAllowedError("This product doesn't exists"));
     }
     await Product.deleteOne({ _id: id });
 
