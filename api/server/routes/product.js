@@ -5,7 +5,8 @@ const router = express.Router();
 const {
   getAllProducts,
   getAProduct,
-  storeProduct
+  storeProduct,
+  deleteProduct
 } = require('../controllers/product');
 
 const { projectValidationData } = require('../middlewares/valideData/project');
@@ -21,6 +22,6 @@ router
     storeProduct
   );
 
-router.route('/:id').get(getAProduct);
+router.route('/:id').get(getAProduct).delete(deleteProduct);
 
 module.exports = router;

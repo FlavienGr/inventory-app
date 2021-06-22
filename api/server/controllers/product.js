@@ -57,3 +57,23 @@ exports.storeProduct = async (req, res, next) => {
     next(new DatabaseError());
   }
 };
+
+// @desc   delete a product
+// @route  delete /api/v1/products/{id}
+// @access Public
+
+exports.deleteProduct = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.findOne({ _id: id });
+
+    if (product === null) {
+      return next(new DataNotAllowedError("This article doesn't exists"));
+    }
+    await Product.deleteOne({ _id: id });
+
+    return res.status(200).json({ success: true, data: [] });
+  } catch (error) {
+    next(new DatabaseError());
+  }
+};
