@@ -1,10 +1,10 @@
 const CustomError = require('./customError');
 
 class DataNotAllowedError extends CustomError {
-  constructor() {
+  constructor(errMessage, statusCode) {
     super();
-    this.message = 'Data not allowed';
-    this.statusCode = 400;
+    this.message = errMessage || 'Data not allowed';
+    this.statusCode = statusCode || 400;
   }
 
   serializeMessage() {

@@ -1,8 +1,8 @@
 const Product = require('../models/Product');
 const DatabaseError = require('../errors/DatabaseError');
-
+const DataNotAllowedError = require('../errors/DataNotAllowedError');
 // @desc   get all products
-// @route  delete /api/v1/products
+// @route  get /api/v1/products
 // @access Public
 
 exports.getAllProducts = async (req, res, next) => {
@@ -19,7 +19,7 @@ exports.getAllProducts = async (req, res, next) => {
 };
 
 // @desc   get a product
-// @route  delete /api/v1/products/{id}
+// @route  get /api/v1/products/{id}
 // @access Public
 
 exports.getAProduct = async (req, res, next) => {
@@ -30,6 +30,28 @@ exports.getAProduct = async (req, res, next) => {
     if (!product) {
       return res.status(200).json({ success: true, data: {} });
     }
+    return res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    next(new DatabaseError());
+  }
+};
+
+// @desc   store a product
+// @route  post /api/v1/products
+// @access Public
+
+exports.storeProduct = async (req, res, next) => {
+  const product = new Product(req.body);
+  try {
+    const isProductExists = await Product.find({ name: product.name });
+
+    if (isProductExists.length > 0) {
+      return next(
+        new DataNotAllowedError('This article name is already taken')
+      );
+    }
+    await product.save();
+
     return res.status(200).json({ success: true, data: product });
   } catch (error) {
     next(new DatabaseError());
