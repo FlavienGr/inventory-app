@@ -1,10 +1,10 @@
 const CustomError = require('./customError');
 
-class DatabaseError extends CustomError {
+class DataNotAllowedError extends CustomError {
   constructor() {
     super();
-    this.message = 'Database connection error';
-    this.statusCode = 500;
+    this.message = 'Data not allowed';
+    this.statusCode = 400;
   }
 
   serializeMessage() {
@@ -15,4 +15,4 @@ class DatabaseError extends CustomError {
     ];
   }
 }
-module.exports = DatabaseError;
+module.exports = DataNotAllowedError;
