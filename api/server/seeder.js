@@ -22,9 +22,19 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 // get an instance of mongoose
-require('./database/index');
+const url = process.env.MONGO_URI;
 
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true
+};
+
+mongoose.connect(url, options);
 const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => console.log("we're connected!"));
 
 // delete docs in db
 const clearDbBeforeInsert = async () => {
@@ -57,7 +67,7 @@ const seedProductsDB = async (productsList) => {
 // create an inventory with a user and a list of products & quantity
 const seedForInventory = async (user, products) => {
   const productWithQuantity = products.map((product) => ({
-    product,
+    product: product.id,
     quantity: Math.floor(Math.random() * 100)
   }));
   try {
@@ -72,12 +82,12 @@ const seedForInventory = async (user, products) => {
 };
 
 // run all the previous functions async and close the db connection
-const seeder = async () => {
+const seeder = async (userData, productsData) => {
   await clearDbBeforeInsert();
-  const user = await seedUserDB(singleUserData);
-  const products = await seedProductsDB(productsListData);
+  const user = await seedUserDB(userData);
+  const products = await seedProductsDB(productsData);
   await seedForInventory(user, products);
 
   return db.close();
 };
-seeder();
+seeder(singleUserData, productsListData);
