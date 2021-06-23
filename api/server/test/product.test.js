@@ -1,23 +1,23 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
 const request = require('supertest');
-const app = require('../../app');
-const { mongoose, connect, disconnect } = require('../../database/index');
-
-const db = mongoose.connection;
-
-const Product = require('../../models/Product');
+const app = require('../app');
+const { connect, disconnect, dropDatabase } = require('../database/index');
+const productSeeder = require('../seeder/utils/product');
 
 // data to seed
-const productsListData = require('../../../data/product.json');
+const [
+  productOne,
+  productTwo,
+  productThree
+] = require('../../data/product.json');
 
 let productToDelete;
 
 beforeAll(async () => {
   connect();
-  await db.dropDatabase();
-  const [productOne, productTwo] = productsListData;
-  await Product.insertMany([productOne, productTwo]);
+  await dropDatabase();
+  await productSeeder([productOne, productTwo]);
 });
 
 afterAll((done) => {
@@ -35,11 +35,11 @@ describe('Test the api/v1/products path', () => {
   test('It should add a product', async () => {
     const response = await request(app)
       .post('/api/v1/products')
-      .send(productsListData[3]);
+      .send(productThree);
 
     expect(response.statusCode).toEqual(201);
     expect(response.body.success).toEqual(true);
-    expect(response.body.data.name).toBe(productsListData[3].name);
+    expect(response.body.data.name).toBe(productThree.name);
 
     // record the product for the delete test
     productToDelete = response.body.data;

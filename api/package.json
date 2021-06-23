@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon server/index.js",
     "lint": "eslint $PWD/server/'**/*.js'",
-    "seed:dev": "NODE_ENV=development node server/seeder.js",
-    "seed:test": "NODE_ENV=test node server/seeder.js",
+    "seed:dev": "NODE_ENV=development node server/seeder/index.js",
+    "seed:test": "NODE_ENV=test node server/seeder/index.js",
     "lint:fix": "prettier-eslint $PWD/server/'**/*.js' --write",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles"
   },
   "author": "FlavienGR",
   "license": "MIT",
