@@ -1,13 +1,7 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose');
 
-const url = process.env.MONGO_URI;
-
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true
-};
+const { url, options } = require('./config');
 
 mongoose.connect(url, options);
 
@@ -24,5 +18,8 @@ module.exports = {
   },
   disconnect: (done) => {
     mongoose.disconnect(done);
+  },
+  dropDatabase: () => {
+    db.dropDatabase();
   }
 };
