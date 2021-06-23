@@ -1,24 +1,19 @@
 const mongoose = require('mongoose');
 const { UserSchema } = require('./User');
+require('./ProductItem');
 
 const InventorySchema = new mongoose.Schema(
   {
     user: UserSchema,
     products: [
       {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product'
-        },
-        quantity: {
-          type: Number,
-          required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ProductItem'
       }
     ]
   },
   { timestamps: true }
 );
-const User = mongoose.model('Inventory', InventorySchema);
+const Inventory = mongoose.model('Inventory', InventorySchema);
 
-module.exports = User;
+module.exports = Inventory;

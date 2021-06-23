@@ -32,10 +32,12 @@ app.use(express.json());
 app.use(morgan('combined'));
 
 // / product router
-const routerProduct = require('./routes/product');
 
-//  routes
+const routerProduct = require('./routes/product'); //  routes
+const routerInventory = require('./routes/inventory'); //  routes
+
 app.use('/api/v1/products', routerProduct);
+app.use('/api/v1/inventory', routerInventory);
 
 // / error handler
 app.use(errorHandler);
