@@ -89,6 +89,37 @@ describe('Test the api/v1/inventory path', () => {
     );
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.products).toHaveLength(2);
+    expect(response.body.data).toHaveLength(0);
+  });
+
+  test('It should delete a productItem from an inventory by id', async () => {
+    let lastProductItem = await request(app).get('/api/v1/inventory');
+    lastProductItem = lastProductItem.body.data[0].products.slice(-1)[0]._id;
+
+    const response = await request(app).delete(
+      `/api/v1/inventory/${lastProductItem}`
+    );
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveLength(0);
+  });
+
+  test('It should update a productItem quantity id', async () => {
+    let lastProductItemBeforeUpdate = await request(app).get(
+      '/api/v1/inventory'
+    );
+    // eslint-disable-next-line prefer-destructuring
+    lastProductItemBeforeUpdate =
+      lastProductItemBeforeUpdate.body.data[0].products.slice(-1)[0];
+
+    const id = lastProductItemBeforeUpdate._id;
+
+    await request(app).put(`/api/v1/inventory/${id}/?quantity=25`);
+
+    const response = await request(app).get('/api/v1/inventory');
+    const newProductItem = response.body.data[0].products.slice(-1)[0];
+
+    expect(response.statusCode).toBe(200);
+    expect(newProductItem.quantity).toBe(25);
   });
 });

@@ -41,7 +41,7 @@ exports.addProductItemToInventory = async (req, res, next) => {
     return next(new DataNotAllowedError('Id product not allowed'));
   }
   // eslint-disable-next-line no-restricted-globals
-  if (isNaN(quantity)) {
+  if (isNaN(quantity) && quantity < 0) {
     return next(new DataNotAllowedError('Quantity value not allowed'));
   }
   try {
@@ -95,22 +95,45 @@ exports.deleteProductItemInventory = async (req, res, next) => {
   }
 
   try {
-    const [inventory] = await Inventory.find().populate({
-      path: 'products',
-      populate: {
-        path: 'productItem'
-      }
-    });
-    if (inventory === null) {
-      return next(new DataNotAllowedError('No Inventory'));
+    const productItem = await ProductItem.deleteOne({ _id: productId }).exec();
+    if (productItem.ok !== 1) {
+      return next(new DatabaseError());
     }
-    inventory.products = inventory.products.filter(
-      (product) => product.id !== productId
-    );
 
-    await inventory.save();
+    return res.status(200).json({ success: true, data: [] });
+  } catch (error) {
+    next(new DatabaseError());
+  }
+};
+// @desc   update product to an inventory
+// @route  update /api/v1/inventory/{productId}
+// @access Public
 
-    return res.status(200).json({ success: true, data: inventory });
+exports.updateProductItemInventory = async (req, res, next) => {
+  const { productId = null } = req.params;
+  const { quantity = 0 } = req.query;
+
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(quantity) && quantity < 0) {
+    return next(new DataNotAllowedError('Quantity value not allowed'));
+  }
+  if (productId === null) {
+    return next(new DataNotAllowedError('Please add a product'));
+  }
+  if (productId.length < 24) {
+    return next(new DataNotAllowedError('Id product not allowed'));
+  }
+
+  try {
+    const newProductItem = await ProductItem.findOne({ _id: productId }).exec();
+
+    if (newProductItem === null) {
+      return next(new DataNotAllowedError('No product item related'));
+    }
+    newProductItem.quantity = quantity;
+    await newProductItem.save();
+
+    return res.status(200).json({ success: true, data: newProductItem });
   } catch (error) {
     next(new DatabaseError());
   }
