@@ -62,7 +62,7 @@ describe('Test the api/v1/inventory path', () => {
     );
   });
 
-  test("It should fail if the product doesn't exists", async () => {
+  test("It should fail to add if the product doesn't exists", async () => {
     const response = await request(app).post(
       `/api/v1/inventory/60d33dc69d4e920ca3f23212?quantity=6`
     );
@@ -71,12 +71,24 @@ describe('Test the api/v1/inventory path', () => {
     expect(response.body.errors[0].message).toBe("The product doesn't exists");
   });
 
-  test('It should fail if the id product is too small', async () => {
+  test('It should fail to add if the id product is too small', async () => {
     const response = await request(app).post(
       `/api/v1/inventory/123456?quantity=6`
     );
 
     expect(response.statusCode).toBe(400);
     expect(response.body.errors[0].message).toBe('Id product not allowed');
+  });
+
+  test('It should delete a productItem from an inventory by id', async () => {
+    let lastProductItem = await request(app).get('/api/v1/inventory');
+    lastProductItem = lastProductItem.body.data[0].products.slice(-1)[0]._id;
+
+    const response = await request(app).delete(
+      `/api/v1/inventory/${lastProductItem}`
+    );
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.products).toHaveLength(2);
   });
 });
