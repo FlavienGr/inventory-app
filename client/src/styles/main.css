@@ -1,0 +1,39 @@
+:root{
+  --bg-color : #fffcf5;
+  --border: #8dbff;
+  --btn: #6a9ed4 ;
+}
+
+.navbar-block {
+  padding: 1rem;
+}
+.title {
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+}
+.title-product {
+  border: 1px solid #8dbff2;
+  display: inline;
+  padding: .6rem;
+  border-radius: 5px;
+}
+a {
+  color: black !important
+}
+.inventory {
+  background-color: var(--bg-color);
+  padding: 2rem;
+}
+
+/* -------------------------------------------------------------
+ Product
+*/
+
+.product_items {
+  border: 1px solid var(--btn);
+}
+
+.custom_btn {
+  background-color: var(--btn);
+  color: #fff;
+}
