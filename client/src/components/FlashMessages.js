@@ -1,13 +1,13 @@
 import React from "react";
 
 const FlashMessages = ({ errors, msgSuccess, handleCloseFlash }) => {
-  const errorMessages = errors.map((error) => (
-    <div className="alert alert-danger">
+  const errorMessages = errors.map((error, i) => (
+    <div className="alert alert-danger" key={i}>
       <div className="alert-custom">{error.message}</div>
       <button
         onClick={handleCloseFlash}
         type="button"
-        class="close"
+        className="close"
         data-dismiss="alert"
       >
         &times;
