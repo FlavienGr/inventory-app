@@ -37,3 +37,11 @@ a {
   background-color: var(--btn);
   color: #fff;
 }
+
+/* -------------------------------------------------------------
+ alert message
+*/
+.alert-custom {
+  display: inline;
+  margin-right: 5rem;
+}

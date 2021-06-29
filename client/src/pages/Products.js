@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ProductsList from "../components/productsList";
 import Modal from "react-modal";
+import ProductsList from "../components/productsList";
+import FlashMessages from "../components/FlashMessages";
 
 Modal.setAppElement("#root");
 
@@ -25,6 +26,8 @@ const Products = () => {
     name: null,
   });
   const [quantity, setQuantity] = useState(0);
+  const [errors, setErrors] = useState([]);
+  const [msgSuccess, setMsgSuccess] = useState("this is true");
 
   useEffect(() => {
     loadProducts();
@@ -51,14 +54,22 @@ const Products = () => {
   const addProductToInventory = async (product) => {
     const urlAndQuantity = `${URL_INVENTORY}${product.id}?quantity=${quantity}`;
 
-    const response = await fetch(urlAndQuantity, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch(urlAndQuantity, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMsgSuccess("Product added to your inventory");
+      } else {
+        setErrors(data.errors);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   // const addProductToList = async (product) => {
   //   const response = await fetch(URL_PRODUCT, {
@@ -109,11 +120,20 @@ const Products = () => {
       );
     }
   };
+  const handleCloseFlash = () => {
+    setErrors([]);
+    setMsgSuccess("");
+  };
   return (
     <div>
       <div className="my-5">
         <h3 className="title-product">Products list</h3>
       </div>
+      <FlashMessages
+        errors={errors}
+        msgSuccess={msgSuccess}
+        handleCloseFlash={handleCloseFlash}
+      />
       <div>{renderProductsList()}</div>
     </div>
   );
