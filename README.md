@@ -1,13 +1,6 @@
 # Inventory-cook-app
 
-Inventory-cook-app is an application to help the chef handling his/her inventory of ingredients.
-
-# Requirements
-
-- Add and remove ingredients to his inventory
-- Deal with quantities
-- Change the name of his ingredients in case he misspelled them
-- Handle uncountable ingredients as well (milk, olive oil, etc.)
+Handling your inventory of ingredients.
 
 # Installation guide
 
@@ -49,4 +42,17 @@ npm run seed:dev
 cd api/
 npm install
 npm run dev
+```
+
+## Install the client
+
+```sh
+cd client/
+npm install
+```
+
+## Start the client
+
+```sh
+npm start
 ```
