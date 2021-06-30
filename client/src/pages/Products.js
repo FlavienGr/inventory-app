@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import ProductsList from "../components/productsList";
+import ProductsList from "../components/ProductsList";
 import FlashMessages from "../components/FlashMessages";
 
 Modal.setAppElement("#root");

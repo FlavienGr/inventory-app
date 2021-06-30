@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
+import Inventory from "./pages/Inventory";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/products" component={Products} />
+            <Route exact path="/inventory" component={Inventory} />
           </Switch>
         </div>
       </>
