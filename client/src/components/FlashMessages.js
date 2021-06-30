@@ -28,7 +28,7 @@ const FlashMessages = ({ errors, msgSuccess, handleCloseFlash }) => {
           <button
             onClick={handleCloseFlash}
             type="button"
-            class="close"
+            className="close"
             data-dismiss="alert"
           >
             &times;
