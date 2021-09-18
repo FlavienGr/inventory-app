@@ -20,7 +20,7 @@ docker-compose up
 
 ## Configuration
 
-- Look at the exemple file called .env.example inside the config folder and add your own params
+- Look at the file example called .env.example inside the config folder and add your own params
 
 ```sh
 cd api/
